@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Logistic回归（分类问题） | Gale Force Eight&#39;s Blog</title>
+    <meta name="generator" content="VuePress 1.5.2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css">
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.d6754e65.css" as="style"><link rel="preload" href="/assets/js/app.79a0865e.js" as="script"><link rel="preload" href="/assets/js/2.6b553fcd.js" as="script"><link rel="preload" href="/assets/js/6.f816704b.js" as="script"><link rel="prefetch" href="/assets/js/3.4cfc6a47.js"><link rel="prefetch" href="/assets/js/4.0bfcab90.js"><link rel="prefetch" href="/assets/js/5.819bb03b.js"><link rel="prefetch" href="/assets/js/7.edd96109.js"><link rel="prefetch" href="/assets/js/8.82a85830.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.d6754e65.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">Gale Force Eight's Blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blogs.html" class="nav-link">
+  机器学习
+</a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blogs.html" class="nav-link">
+  机器学习
+</a></div> <!----></nav>  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="logistic回归（分类问题）"><a href="#logistic回归（分类问题）" class="header-anchor">#</a> Logistic回归（分类问题）</h1> <hr> <ol><li>二分类任务</li></ol> <blockquote><ul><li>输出标记$y\in{0,1}$，即将一组输入的特征值识别为0类或1类。</li></ul></blockquote> <ol start="2"><li>sigmoid函数（logistic函数）</li></ol> <blockquote><ul><li>将实数映射到$(0,1)$范围。</li> <li>$f:R\rightarrow (0,1),f(z)=\frac{1}{1+e^{-z}}$</li> <li>将线性回归预测值映射到sigmoid函数上即可进行二分类任务：
+$$
+h_\theta(\boldsymbol{x})=f(\boldsymbol{\theta}^T\boldsymbol{x})=\frac{1}{1+e^{-\boldsymbol{\theta}^T\boldsymbol{x}}}
+$$</li> <li>其意义为在$\boldsymbol{\theta},\boldsymbol{x}$给定的情况下，$y=1$的概率：
+$$
+h_\theta(\boldsymbol{x})=P(y=1|\boldsymbol{x};\boldsymbol{\theta})
+$$</li></ul></blockquote> <ol start="3"><li>决策边界</li></ol> <blockquote><ul><li>即分类的界限</li> <li>取$h_\theta(\boldsymbol{x})=0.5$可得决策边界：$\boldsymbol{\theta}^T\boldsymbol{x}=0$</li></ul></blockquote> <ol start="3"><li>代价函数</li></ol> <blockquote><ul><li>如果使用与线性回归相同的代价函数，即$J(\boldsymbol{\theta})=\frac{1}{2m}\sum_{i=1}^m(h_\theta(\boldsymbol{x}^{(i)})-y^{(i)})^2$，由于该函数并不是凸函数，使用梯度下降难以找到最优参数。</li> <li>可以使用另一种代价函数代替。首先定义单组样本的代价：
+$$
+cost(h_\theta(\boldsymbol{x}),y)=\begin{cases}-\log(h_\theta(\boldsymbol{x}))&amp;,y=1\-\log(1-h_\theta(\boldsymbol{x}))&amp;,y=0\end{cases}
+$$</li> <li>改写为另一种形式：
+$$
+cost(h_\theta(\boldsymbol{x}),y)=-(y\cdot\log(h_\theta(\boldsymbol{x}))+(1-y)\cdot\log(1-h_\theta(\boldsymbol{x})))
+$$</li> <li>则logistic回归的代价函数定义为：
+$$
+J(\boldsymbol{\theta})=\frac{1}{m}\sum_{i=1}^mcost(h_\theta(\boldsymbol{x}^{(i)}), y^{(i)})\newline=-\frac{1}{m}\sum_{i=1}^m[y^{(i)}\log(h_\theta(\boldsymbol{x^{(i)}}))+(1-y^{(i)})\log(1-h_\theta(\boldsymbol{x^{(i)}}))]
+$$</li></ul></blockquote> <ol start="4"><li>梯度下降法</li></ol> <blockquote><ul><li>目标：$\min\limits_\boldsymbol{\theta}J(\boldsymbol{\theta})$</li> <li>迭代方法：$\theta_j^{(k+1)}:=\theta_j^{(k)}-\alpha\frac{\partial}{\partial\theta_j}J(\boldsymbol{\theta}^{(k)})$</li> <li>将$J(\boldsymbol{\theta})$代入可得：$\theta_j^{(k+1)}:=\theta_j^{(k)}-\alpha\frac{1}{m}\sum_{i=1}^m(h_\theta(\boldsymbol{x^{(i)}})-y^{(i)})x^{(i)}_j$（其中k是当前迭代轮数）</li> <li>该迭代公式与线性回归的迭代公式相同</li></ul></blockquote> <ol start="5"><li>高级优化方法</li></ol> <blockquote><ul><li>共轭梯度法（Conjugate Gradient）</li> <li>BFGS</li> <li>L-BFGS</li></ul></blockquote></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.79a0865e.js" defer></script><script src="/assets/js/2.6b553fcd.js" defer></script><script src="/assets/js/6.f816704b.js" defer></script>
+  </body>
+</html>
